@@ -3,17 +3,17 @@ declare(strict_types=1);
 
 namespace App\Domain\Skill;
 
+use App\Api\ChanceCalculatorInterface;
 use App\Api\SkillFactoryInterface;
 use App\Exception\InvalidSkillValuesException;
 use App\Exception\UnknownSkillException;
-use App\Service\ChanceCalculator;
 
 class SkillFactory implements SkillFactoryInterface
 {
-    private ChanceCalculator $chanceCalculator;
+    private ChanceCalculatorInterface $chanceCalculator;
 
     public function __construct(
-        ChanceCalculator $chanceCalculator
+        ChanceCalculatorInterface $chanceCalculator
     ) {
         $this->chanceCalculator = $chanceCalculator;
     }

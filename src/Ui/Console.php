@@ -29,7 +29,7 @@ class Console
                 continue;
             }
             $roundMessage .= "{$round->getAttackerName()} had an attack of {$round->getAttack()->getValue()}" . PHP_EOL;
-            if(count($round->getAttack()->getSkills()) > 0) {
+            if($round->getAttack()->wereSkillsUsed() > 0) {
                 $roundMessage .= "Attacker used his core strength and the following skills " . implode(',', $round->getAttack()->getSkills()) . PHP_EOL;
             }
 
@@ -41,7 +41,7 @@ class Console
             }
 
             $roundMessage .= "{$round->getDefenderName()} had a defence of {$round->getDefence()->getValue()}" . PHP_EOL;
-            if(count($round->getDefence()->getSkills()) > 0) {
+            if($round->getDefence()->wereSkillsUsed()) {
                 $roundMessage .= "Defender used his core defence and the following skills " . implode(',', $round->getDefence()->getSkills()) . PHP_EOL;
             }
 

@@ -55,6 +55,11 @@ abstract class AbstractSkill
         return static::SKILL_TYPE;
     }
 
+    public function getChance(): float
+    {
+        return $this->chance;
+    }
+
     /**
      * At each event there is $this->chance that the skill applies.
      * The method determines whether a skill applies at a given event
