@@ -65,7 +65,7 @@ class Round
     /**
      * @return bool
      */
-    public function isDefenderGotLucky(): bool
+    public function wasDefenderLucky(): bool
     {
         return $this->defenderGotLucky;
     }
