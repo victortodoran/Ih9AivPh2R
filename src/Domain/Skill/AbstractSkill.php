@@ -8,9 +8,6 @@ use App\Helper\Util;
 
 abstract class AbstractSkill
 {
-    public const TYPE_DEFENSE = 'defense';
-    public const TYPE_ATTACK = 'attack';
-
     public const IDENTIFIER = 'abstract_skill';
 
     /**
@@ -21,30 +18,21 @@ abstract class AbstractSkill
      * The label will be used to describe what happened in each round.
      */
     private string $skillLabel;
-    /**
-     * defense|attack
-     */
-    private string $type;
 
     /**
      * Skill constructor.
      * @throws InvalidSkillValuesException
      */
-    public function __construct(string $type, float $chance)
+    public function __construct(float $chance)
     {
-        $this->validateConstructorData($type, $chance);
+        $this->validateConstructorData($chance);
 
-        $this->type = $type;
         $this->chance = $chance;
         $this->skillLabel = str_replace('_', ' ', static::IDENTIFIER);
     }
 
-    abstract function addSkillValue(float $value): float;
-
-    public function getType(): string
-    {
-        return $this->type;
-    }
+    abstract public function addAttackValue(float $attackValue): float;
+    abstract public function addDefenseValue(float $defenceValue, float $opponentAttackValue): float;
 
     public function getSkillLabel(): string
     {
@@ -61,16 +49,11 @@ abstract class AbstractSkill
     }
 
     /**
-     * @param string $type
      * @param float $chance
      * @throws InvalidSkillValuesException
      */
-    private function validateConstructorData(string $type, float $chance): void
+    private function validateConstructorData(float $chance): void
     {
-        if($type !== self::TYPE_DEFENSE || $type !== self::TYPE_ATTACK) {
-            throw new InvalidSkillValuesException("Invalid skill type '{$type}' provided");
-        }
-
         if($chance < 0 || $chance > 100) {
             throw new InvalidSkillValuesException("Chance can not be smaller than 0 or greater than 100");
         }

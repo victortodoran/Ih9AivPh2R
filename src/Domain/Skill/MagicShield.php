@@ -7,9 +7,13 @@ class MagicShield extends AbstractSkill
 {
     public const IDENTIFIER = 'magic_shield';
 
-    function addSkillValue(float $value): float
+    public function addAttackValue(float $attackValue): float
     {
-        // TODO: Implement computeSkillValue() method.
-        return $value;
+        return $attackValue;
+    }
+
+    public function addDefenseValue(float $defenceValue, float $opponentAttackValue): float
+    {
+        return $defenceValue + $opponentAttackValue / 2;
     }
 }

@@ -7,8 +7,13 @@ class RapidStrike extends AbstractSkill
 {
     public const IDENTIFIER = 'rapid_strike';
 
-    function addSkillValue(float $value): float
+    function addAttackValue(float $attackValue): float
     {
-        return $value;
+        return $attackValue * 2;
+    }
+
+    function addDefenseValue(float $defenceValue, float $opponentAttackValue): float
+    {
+        return $defenceValue;
     }
 }

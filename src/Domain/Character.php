@@ -19,8 +19,7 @@ class Character
     private float $defence;
     private float $speed;
     private float $luck;
-    private array $attackSkills = [];
-    private array $defenseSkills = [];
+    private array $skills;
 
     public function __construct(
         string $name,
@@ -36,16 +35,12 @@ class Character
         $this->defence = $defence;
         $this->speed = $speed;
         $this->luck = $luck;
+        $this->skills = [];
     }
 
     public function addSkill(AbstractSkill $skill): self
     {
-        if($skill->getType() === AbstractSkill::TYPE_ATTACK) {
-            $this->attackSkills[] = $skill;
-            return $this;
-        }
-
-        $this->defenseSkills[] = $skill;
+        $this->skills[] = $skill;
         return $this;
     }
 
@@ -75,18 +70,12 @@ class Character
         return new Action(0, []);
     }
 
-    public function computeDefense(): Action
-    {
-        // TODO IMPLEMENT
-        return new Action(0, []);
-    }
-
     /**
      * @throws CharacterIsDeadException
      */
-    public function takeDamage(float $damage): float
+    public function takeDamage(float $damage): Action
     {
         // TODO IMPLEMENT
-        return $this->health;
+        return new Action(0, []);
     }
 }

@@ -70,15 +70,13 @@ class Game
                 continue;
             }
 
-            $attack = $attacker->computeAttack();
-            $defense = $defender->computeDefense();
-
             try {
-                $defenderHealth = $defender->takeDamage($attack->getValue());
+                $attack = $attacker->computeAttack();
+                $defense = $defender->takeDamage($attack->getValue());
             } catch (CharacterIsDeadException $exception) {
-                $defenderHealth = 0;
                 $this->isGameOver = true;
                 $this->winner = $attacker;
+                $defense = null;
             }
 
             $this->rounds->enqueue(
@@ -87,11 +85,12 @@ class Game
                     $attacker->getName(),
                     $defender->getName(),
                     false,
-                    $defenderHealth,
+                    $defender->getHealth(),
                     $attack,
                     $defense
                 )
             );
+
             $this->characters->enqueue($defender);
             $this->characters->enqueue($attacker);
             $roundNumber++;

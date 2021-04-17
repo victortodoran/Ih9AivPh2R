@@ -42,12 +42,10 @@ class InMemoryCharacterFactory implements CharacterFactoryInterface
             self::SKILLS    => [
                 [
                     self::SKILL_IDENTIFIER => 'rapid_strike',
-                    self::SKILL_TYPE => AbstractSkill::TYPE_ATTACK,
                     self::SKILL_CHANCE => 10
                 ],
                 [
                     self::SKILL_IDENTIFIER => 'magic_shield',
-                    self::SKILL_TYPE => AbstractSkill::TYPE_DEFENSE,
                     self::SKILL_CHANCE => 20
                 ]
             ]
