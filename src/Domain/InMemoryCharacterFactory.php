@@ -7,7 +7,7 @@ namespace App\Domain;
 
 use App\Api\CharacterFactoryInterface;
 use App\Api\SkillFactoryInterface;
-use App\Domain\Character;
+use App\Domain\Skill\AbstractSkill;
 
 class InMemoryCharacterFactory implements CharacterFactoryInterface
 {
