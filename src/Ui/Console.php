@@ -16,6 +16,7 @@ class Console
 
     public function execute(Game $game)
     {
+        $this->displayInitialStats($game->getInitialCharacterStats());
         /** @var Round $round */
         foreach ($game->getRounds() as $round)
         {
@@ -45,7 +46,7 @@ class Console
             }
 
             $totalDamage = $round->getAttack()->getValue() - $round->getDefence()->getValue() > 0 ?
-                $round->getAttack()->getValue() - $round->getDefence()->getValue() : $round->getDefence()->getValue();
+                $round->getAttack()->getValue() - $round->getDefence()->getValue() : 0;
 
             $roundMessage .= "The attacker {$round->getAttackerName()} did a total damage of {$totalDamage} to {$round->getDefenderName()}" . PHP_EOL;
             if($round->getDefenderRemainingHealth()) {
@@ -62,6 +63,17 @@ class Console
             echo "The winner of the battle is {$game->getWinner()->getName()}" . PHP_EOL;
         } else {
             echo "The battle ended a draw" . PHP_EOL;
+        }
+    }
+
+    private function displayInitialStats(array $initialCharacterStats)
+    {
+        echo "Let the battle between the following " . implode(' vs. ',array_keys($initialCharacterStats)) . " begin" . PHP_EOL;
+        foreach ($initialCharacterStats as $characterAsArray) {
+            foreach ($characterAsArray as $key => $value) {
+                echo strtoupper($key) . " => {$value}" . PHP_EOL;
+            }
+            echo PHP_EOL;
         }
     }
 }

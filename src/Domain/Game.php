@@ -21,7 +21,10 @@ class Game
      * Protagonists of the game
      */
     private SplQueue $characters;
-
+    /**
+     * Stats of characters at the beginning of the game
+     */
+    private array $characterInitialStats;
     private int $maxNumberOfRounds;
     private bool $isGameOver = false;
     private ?Character $winner;
@@ -31,6 +34,7 @@ class Game
         Character $characterTwo,
         int $maxNumberOfRounds
     ) {
+        $this->winner = null;
         $this->characters = new SplQueue();
         $this->rounds = new SplQueue();
         $this->maxNumberOfRounds = $maxNumberOfRounds;
@@ -38,12 +42,13 @@ class Game
         if($this->isCharacterOneFirst($characterOne, $characterTwo)) {
             $this->characters->enqueue($characterOne);
             $this->characters->enqueue($characterTwo);
-        } else {
-            $this->characters->enqueue($characterTwo);
-            $this->characters->enqueue($characterOne);
+            $this->recordInitialCharacterStats([$characterOne, $characterTwo]);
+            return;
         }
 
-        $this->winner = null;
+        $this->characters->enqueue($characterTwo);
+        $this->characters->enqueue($characterOne);
+        $this->recordInitialCharacterStats([$characterTwo, $characterOne]);
     }
 
     public function execute(): void
@@ -121,5 +126,28 @@ class Game
     public function getWinner(): ?Character
     {
         return $this->winner;
+    }
+
+    public function getInitialCharacterStats(): array
+    {
+        return $this->characterInitialStats;
+    }
+
+    /**
+     *
+     * @param Character[] $characters
+     */
+    private function recordInitialCharacterStats(array $characters): void
+    {
+        foreach ($characters as $character) {
+            $this->characterInitialStats[$character->getName()] = [
+                'name' => $character->getName(),
+                'health' => $character->getHealth(),
+                'strength' => $character->getStrength(),
+                'defence' => $character->getDefence(),
+                'speed' => $character->getSpeed(),
+                'luck' => $character->getLuck()
+            ];
+        }
     }
 }
