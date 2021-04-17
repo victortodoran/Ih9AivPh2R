@@ -1,0 +1,7 @@
+{
+  "name": "victor/hero-app",
+  "description": "Hero game implementation",
+  "autoload": {
+    "psr-4": {"App\\": "src/"}
+  }
+}
