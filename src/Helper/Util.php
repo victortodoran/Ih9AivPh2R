@@ -13,11 +13,11 @@ class Util
      * Given that chance with which an event occurs
      * decides whether the event must occur or not.
      */
-    public static function areOddsInFavour(int $chance): bool
+    public static function areOddsInFavour(float $chance): bool
     {
-        if($chance === 0) {
+        if($chance === 0.0) {
             return false;
         }
-        return $chance <= rand(1,100);
+        return $chance <= (float) rand(1,100);
     }
 }

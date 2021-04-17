@@ -7,14 +7,8 @@ class RapidStrike extends AbstractSkill
 {
     public const IDENTIFIER = 'rapid_strike';
 
-    public function getType(): string
+    function addSkillValue(float $value): float
     {
-        return self::TYPE_ATTACK;
-    }
-
-    function addSkillValue(int $value): int
-    {
-        // TODO: Implement addSkillValue() method.
         return $value;
     }
 }

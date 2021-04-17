@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Domain\Skill;
 
 use App\Exception\InvalidSkillValuesException;
+use App\Helper\Util;
 
 abstract class AbstractSkill
 {
@@ -15,7 +16,7 @@ abstract class AbstractSkill
     /**
      * Chance that the skill applies at each event.
      */
-    private int $chance;
+    private float $chance;
     /**
      * The label will be used to describe what happened in each round.
      */
@@ -29,7 +30,7 @@ abstract class AbstractSkill
      * Skill constructor.
      * @throws InvalidSkillValuesException
      */
-    public function __construct(string $type, int $chance)
+    public function __construct(string $type, float $chance)
     {
         $this->validateConstructorData($type, $chance);
 
@@ -38,8 +39,12 @@ abstract class AbstractSkill
         $this->skillLabel = str_replace('_', ' ', static::IDENTIFIER);
     }
 
-    abstract public function getType(): string;
-    abstract function addSkillValue(int $value): int;
+    abstract function addSkillValue(float $value): float;
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
 
     public function getSkillLabel(): string
     {
@@ -52,15 +57,15 @@ abstract class AbstractSkill
      */
     public function doesSkillApply(): bool
     {
-        return false;
+        return Util::areOddsInFavour($this->chance);
     }
 
     /**
      * @param string $type
-     * @param int $chance
+     * @param float $chance
      * @throws InvalidSkillValuesException
      */
-    private function validateConstructorData(string $type, int $chance): void
+    private function validateConstructorData(string $type, float $chance): void
     {
         if($type !== self::TYPE_DEFENSE || $type !== self::TYPE_ATTACK) {
             throw new InvalidSkillValuesException("Invalid skill type '{$type}' provided");

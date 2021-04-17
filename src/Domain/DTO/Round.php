@@ -16,7 +16,7 @@ class Round
     private string $attackerName;
     private string $defenderName;
     private bool $defenderGotLucky;
-    private int $defenderRemainingHealth;
+    private float $defenderRemainingHealth;
     private ?Action $attack;
     private ?Action $defense;
 
@@ -25,7 +25,7 @@ class Round
         string $attackerName,
         string $defenderName,
         bool $defenderGotLucky,
-        int $defenderRemainingHealth,
+        float $defenderRemainingHealth,
         ?Action $attack = null,
         ?Action $defense = null
     ) {
@@ -71,9 +71,9 @@ class Round
     }
 
     /**
-     * @return int
+     * @return float
      */
-    public function getDefenderRemainingHealth(): int
+    public function getDefenderRemainingHealth(): float
     {
         return $this->defenderRemainingHealth;
     }

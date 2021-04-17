@@ -69,11 +69,11 @@ class InMemoryCharacterFactory implements CharacterFactoryInterface
         foreach (self::CHARACTERS_INFORMATION as $characterInformation) {
             $character = new Character(
                 $characterInformation['name'],
-                rand(... array_values($characterInformation[self::HEALTH])),
-                rand(... array_values($characterInformation[self::STRENGTH])),
-                rand(... array_values($characterInformation[self::DEFENCE])),
-                rand(... array_values($characterInformation[self::SPEED])),
-                rand(... array_values($characterInformation[self::LUCK])),
+                (float) rand(... array_values($characterInformation[self::HEALTH])),
+                (float) rand(... array_values($characterInformation[self::STRENGTH])),
+                (float) rand(... array_values($characterInformation[self::DEFENCE])),
+                (float) rand(... array_values($characterInformation[self::SPEED])),
+                (float) rand(... array_values($characterInformation[self::LUCK])),
             );
             foreach($characterInformation[self::SKILLS] as $skill) {
                 $character->addSkill(

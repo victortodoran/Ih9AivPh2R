@@ -14,21 +14,21 @@ use App\Exception\CharacterIsDeadException;
 class Character
 {
     private string $name;
-    private int $health;
-    private int $strength;
-    private int $defence;
-    private int $speed;
-    private int $luck;
+    private float $health;
+    private float $strength;
+    private float $defence;
+    private float $speed;
+    private float $luck;
     private array $attackSkills = [];
     private array $defenseSkills = [];
 
     public function __construct(
         string $name,
-        int $health,
-        int $strength,
-        int $defence,
-        int $speed,
-        int $luck
+        float $health,
+        float $strength,
+        float $defence,
+        float $speed,
+        float $luck
     ) {
         $this->name = $name;
         $this->health = $health;
@@ -49,12 +49,12 @@ class Character
         return $this;
     }
 
-    public function getSpeed(): int
+    public function getSpeed(): float
     {
         return $this->speed;
     }
 
-    public function getLuck(): int
+    public function getLuck(): float
     {
         return $this->luck;
     }
@@ -64,7 +64,7 @@ class Character
         return $this->name;
     }
 
-    public function getHealth(): int
+    public function getHealth(): float
     {
         return $this->getHealth();
     }
@@ -84,7 +84,7 @@ class Character
     /**
      * @throws CharacterIsDeadException
      */
-    public function takeDamage(int $damage): int
+    public function takeDamage(float $damage): float
     {
         // TODO IMPLEMENT
         return $this->health;

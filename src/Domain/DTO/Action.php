@@ -11,18 +11,18 @@ namespace App\Domain\DTO;
  */
 class Action
 {
-    private int $value;
+    private float $value;
     private array $skills;
 
     public function __construct(
-        int $value,
+        float $value,
         array $skills
     ) {
         $this->value = $value;
         $this->skills = $skills;
     }
 
-    public function getValue(): int
+    public function getValue(): float
     {
         return $this->value;
     }
