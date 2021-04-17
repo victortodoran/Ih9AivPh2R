@@ -18,7 +18,7 @@ class Round
     private bool $defenderGotLucky;
     private float $defenderRemainingHealth;
     private ?Action $attack;
-    private ?Action $defense;
+    private ?Action $defence;
 
     public function __construct(
         int $roundNumber,
@@ -27,14 +27,14 @@ class Round
         bool $defenderGotLucky,
         float $defenderRemainingHealth,
         ?Action $attack = null,
-        ?Action $defense = null
+        ?Action $defence = null
     ) {
         $this->roundNumber = $roundNumber;
         $this->attackerName = $attackerName;
         $this->defenderName = $defenderName;
         $this->defenderGotLucky = $defenderGotLucky;
         $this->attack = $attack;
-        $this->defense = $defense;
+        $this->defence = $defence;
         $this->defenderRemainingHealth = $defenderRemainingHealth;
     }
 
@@ -89,8 +89,8 @@ class Round
     /**
      * @return Action|null
      */
-    public function getDefense(): ?Action
+    public function getDefence(): ?Action
     {
-        return $this->defense;
+        return $this->defence;
     }
 }
