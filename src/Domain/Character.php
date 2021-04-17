@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace App\Domain;
 
 
+use App\Domain\Skill\AbstractSkill;
+
 class Character
 {
+    private string $name;
     private int $health;
     private int $strength;
     private int $defence;
@@ -15,16 +18,15 @@ class Character
     private array $attackSkills = [];
     private array $defenseSkills = [];
 
-    /**
-     * Character constructor.
-     * @param int $health
-     * @param int $strength
-     * @param int $defence
-     * @param int $speed
-     * @param int $luck
-     */
-    public function __construct(int $health, int $strength, int $defence, int $speed, int $luck)
-    {
+    public function __construct(
+        string $name,
+        int $health,
+        int $strength,
+        int $defence,
+        int $speed,
+        int $luck
+    ) {
+        $this->name = $name;
         $this->health = $health;
         $this->strength = $strength;
         $this->defence = $defence;
@@ -32,9 +34,9 @@ class Character
         $this->luck = $luck;
     }
 
-    public function addSkill(Skill $skill): self
+    public function addSkill(AbstractSkill $skill): self
     {
-        if($skill->getType() === Skill::TYPE_ATTACK) {
+        if($skill->getType() === AbstractSkill::TYPE_ATTACK) {
             $this->attackSkills[] = $skill;
             return $this;
         }
