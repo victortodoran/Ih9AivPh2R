@@ -8,6 +8,7 @@ use App\Ui\Console;
 
 const MAX_NUMBER_OF_ROUNDS = 20;
 
+
 try {
     $ui = new Console();
     $skillFactory = new SkillFactory();

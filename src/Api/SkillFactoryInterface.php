@@ -7,5 +7,5 @@ use App\Domain\Skill\AbstractSkill;
 
 interface SkillFactoryInterface
 {
-    public function create(string $skillIdentifier, float $chance): AbstractSkill;
+    public function create(string $skillIdentifier, float $chance, int $priority): AbstractSkill;
 }

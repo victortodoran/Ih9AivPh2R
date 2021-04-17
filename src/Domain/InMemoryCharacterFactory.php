@@ -7,6 +7,7 @@ namespace App\Domain;
 
 use App\Api\CharacterFactoryInterface;
 use App\Api\SkillFactoryInterface;
+use App\Domain\Skill\AbstractAttackSkill;
 
 class InMemoryCharacterFactory implements CharacterFactoryInterface
 {
@@ -28,6 +29,8 @@ class InMemoryCharacterFactory implements CharacterFactoryInterface
 
     private const SKILL_IDENTIFIER = 'skill_identifier';
     private const SKILL_CHANCE = 'skill_chance';
+    private const SKILL_TYPE = 'type';
+    private const SKILL_PRIORITY = 'priority';
 
     private const CHARACTERS_INFORMATION = [
         'orderus' => [
@@ -40,11 +43,13 @@ class InMemoryCharacterFactory implements CharacterFactoryInterface
             self::SKILLS    => [
                 [
                     self::SKILL_IDENTIFIER => 'rapid_strike',
-                    self::SKILL_CHANCE => 10
+                    self::SKILL_CHANCE => 10,
+                    self::SKILL_PRIORITY => 10
                 ],
                 [
                     self::SKILL_IDENTIFIER => 'magic_shield',
-                    self::SKILL_CHANCE => 20
+                    self::SKILL_CHANCE => 20,
+                    self::SKILL_PRIORITY => 10
                 ]
             ]
         ],
@@ -72,9 +77,17 @@ class InMemoryCharacterFactory implements CharacterFactoryInterface
                 (float) rand(... array_values($characterInformation[self::LUCK])),
             );
             foreach($characterInformation[self::SKILLS] as $skill) {
-                $character->addSkill(
-                    $this->skillFactory->create(... array_values($skill))
+                $skill = $this->skillFactory->create(
+                    $skill[self::SKILL_IDENTIFIER],
+                    $skill[self::SKILL_CHANCE],
+                    $skill[self::SKILL_PRIORITY]
                 );
+
+                if($skill->getType() === AbstractAttackSkill::SKILL_TYPE) {
+                    $character->addAttackSkill($skill);
+                    continue;
+                }
+                $character->addDefenceSkill($skill);
             }
 
             $result[] = $character;

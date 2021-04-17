@@ -9,6 +9,7 @@ use App\Helper\Util;
 abstract class AbstractSkill
 {
     public const IDENTIFIER = 'abstract_skill';
+    public const SKILL_TYPE = 'abstract';
 
     /**
      * Chance that the skill applies at each event.
@@ -18,25 +19,38 @@ abstract class AbstractSkill
      * The label will be used to describe what happened in each round.
      */
     private string $skillLabel;
+    /**
+     * The priority is used to determine which is skill(from a number of skills) is applied first.
+     * Higher is better.
+     */
+    private int $priority;
 
     /**
      * Skill constructor.
      * @throws InvalidSkillValuesException
      */
-    public function __construct(float $chance)
+    public function __construct(float $chance, int $priority)
     {
         $this->validateConstructorData($chance);
 
         $this->chance = $chance;
+        $this->priority = $priority;
         $this->skillLabel = strtoupper(static::IDENTIFIER);
     }
-
-    abstract public function addAttackValue(float $attackValue): float;
-    abstract public function addDefenceValue(float $defenceValue, float $opponentAttackValue): float;
 
     public function getSkillLabel(): string
     {
         return $this->skillLabel;
+    }
+
+    public function getPriority(): int
+    {
+        return $this->priority;
+    }
+
+    public function getType(): string
+    {
+        return static::SKILL_TYPE;
     }
 
     /**

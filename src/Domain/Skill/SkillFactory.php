@@ -16,15 +16,15 @@ class SkillFactory implements SkillFactoryInterface
 
     /**
      * @throws UnknownSkillException
-     * @throws InvalidSkillValuesException
+     * @throws InvalidSkillValuesException (see AbstractSkill::validateConstructorData())
      */
-    public function create(string $skillIdentifier, float $chance): AbstractSkill
+    public function create(string $skillIdentifier, float $chance, int $priority): AbstractSkill
     {
         if(!isset(self::SKILLS[$skillIdentifier])) {
             throw new UnknownSkillException("There is no such skill with given skill identifier '{$skillIdentifier}'");
         }
 
         $skillClass = self::SKILLS[$skillIdentifier];
-        return new $skillClass($chance);
+        return new $skillClass($chance, $priority);
     }
 }

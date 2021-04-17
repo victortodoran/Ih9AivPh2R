@@ -4,12 +4,14 @@ declare(strict_types=1);
 namespace App\Domain;
 
 use App\Domain\DTO\Action;
-use App\Domain\Skill\AbstractSkill;
-use App\Exception\CharacterIsDeadException;
+use App\Domain\Skill\AbstractAttackSkill;
+use App\Domain\Skill\AbstractDefenceSkill;
+use SplPriorityQueue;
 
 /**
- * A character is one of two possible protagonists of the game
- * It can be either Orderus or a Beast
+ * A character is one of two possible protagonists of the game. It can be either Orderus or a Beast.
+ * There are not enough differences between a Champion(Orderus) and a Beast to justify separate entities for it.
+ * There is a high probability that business requirements will introduce skills for Beasts in the future.
  */
 class Character
 {
@@ -19,10 +21,13 @@ class Character
     private float $defence;
     private float $speed;
     private float $luck;
-    /**
-     * @var AbstractSkill[]
+
+    /*
+     * The priority in which skills are applied counts.
+     * see documentation.txt for more details.
      */
-    private array $skills;
+    private SplPriorityQueue $attackSkills;
+    private SplPriorityQueue $defenceSkills;
 
     public function __construct(
         string $name,
@@ -38,12 +43,20 @@ class Character
         $this->defence = $defence;
         $this->speed = $speed;
         $this->luck = $luck;
-        $this->skills = [];
+
+        $this->attackSkills = new SplPriorityQueue();
+        $this->defenceSkills = new SplPriorityQueue();
     }
 
-    public function addSkill(AbstractSkill $skill): self
+    public function addAttackSkill(AbstractAttackSkill $skill): self
     {
-        $this->skills[] = $skill;
+        $this->attackSkills->insert($skill, $skill->getPriority());
+        return $this;
+    }
+
+    public function addDefenceSkill(AbstractDefenceSkill $skill): self
+    {
+        $this->defenceSkills->insert($skill, $skill->getPriority());
         return $this;
     }
 
@@ -74,16 +87,17 @@ class Character
 
     public function getDefence(): float
     {
-        return $this->strength;
+        return $this->defence;
     }
 
     public function computeAttack(): Action
     {
         $attackValue = $this->strength;
         $appliedSkills = [];
-        foreach ($this->skills as $skill) {
+        /** @var AbstractAttackSkill $skill */
+        foreach ($this->attackSkills as $skill) {
             if($skill->doesSkillApply()) {
-                $attackValue = $skill->addAttackValue($attackValue);
+                $attackValue = $skill->applySkill($attackValue);
                 $appliedSkills[] = $skill->getSkillLabel();
             }
         }
@@ -99,9 +113,10 @@ class Character
 
         $defenceValue = $this->defence;
         $appliedSkills = [];
-        foreach($this->skills as $skill) {
+        /** @var AbstractDefenceSkill $skill */
+        foreach($this->defenceSkills as $skill) {
             if($skill->doesSkillApply()) {
-                $defenceValue = $skill->addDefenceValue($defenceValue, $attackValue);
+                $defenceValue = $skill->applySkill($defenceValue, $attackValue);
                 $appliedSkills[] = $skill->getSkillLabel();
             }
         }

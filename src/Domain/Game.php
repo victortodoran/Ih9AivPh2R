@@ -96,7 +96,7 @@ class Game
                     $defense
                 )
             );
-
+            
             $this->characters->enqueue($defender);
             $this->characters->enqueue($attacker);
             $roundNumber++;
