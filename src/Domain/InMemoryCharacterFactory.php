@@ -7,7 +7,6 @@ namespace App\Domain;
 
 use App\Api\CharacterFactoryInterface;
 use App\Api\SkillFactoryInterface;
-use App\Domain\Skill\AbstractSkill;
 
 class InMemoryCharacterFactory implements CharacterFactoryInterface
 {
@@ -77,13 +76,7 @@ class InMemoryCharacterFactory implements CharacterFactoryInterface
                     $this->skillFactory->create(... array_values($skill))
                 );
             }
-         /*   echo $character->getName() . PHP_EOL;
-            echo $character->getHealth() . PHP_EOL;
-            echo $character->getStrength() . PHP_EOL;
-            echo $character->getDefence() . PHP_EOL;
-            echo $character->getSpeed() . PHP_EOL;
-            echo $character->getLuck() . PHP_EOL;
-            echo PHP_EOL;*/
+
             $result[] = $character;
         }
         return $result;
