@@ -6,9 +6,18 @@ namespace App\Domain\Skill;
 use App\Api\SkillFactoryInterface;
 use App\Exception\InvalidSkillValuesException;
 use App\Exception\UnknownSkillException;
+use App\Service\ChanceCalculator;
 
 class SkillFactory implements SkillFactoryInterface
 {
+    private ChanceCalculator $chanceCalculator;
+
+    public function __construct(
+        ChanceCalculator $chanceCalculator
+    ) {
+        $this->chanceCalculator = $chanceCalculator;
+    }
+
     private const SKILLS = [
         RapidStrike::IDENTIFIER => RapidStrike::class,
         MagicShield::IDENTIFIER => MagicShield::class
@@ -25,6 +34,6 @@ class SkillFactory implements SkillFactoryInterface
         }
 
         $skillClass = self::SKILLS[$skillIdentifier];
-        return new $skillClass($chance, $priority);
+        return new $skillClass($this->chanceCalculator,$chance, $priority);
     }
 }

@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Skill;
 
+use App\Api\ChanceCalculatorInterface;
 use App\Exception\InvalidSkillValuesException;
-use App\Helper\Util;
 
 abstract class AbstractSkill
 {
@@ -24,18 +24,20 @@ abstract class AbstractSkill
      * Higher is better.
      */
     private int $priority;
+    private ChanceCalculatorInterface $chanceCalculator;
 
     /**
      * Skill constructor.
      * @throws InvalidSkillValuesException
      */
-    public function __construct(float $chance, int $priority)
+    public function __construct(ChanceCalculatorInterface $chanceCalculator, float $chance, int $priority)
     {
         $this->validateConstructorData($chance);
 
         $this->chance = $chance;
         $this->priority = $priority;
         $this->skillLabel = strtoupper(static::IDENTIFIER);
+        $this->chanceCalculator = $chanceCalculator;
     }
 
     public function getSkillLabel(): string
@@ -59,7 +61,7 @@ abstract class AbstractSkill
      */
     public function doesSkillApply(): bool
     {
-        return Util::areOddsInFavour($this->chance);
+        return $this->chanceCalculator->areOddsInFavour($this->chance);
     }
 
     /**

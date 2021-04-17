@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Domain;
 
+use App\Api\ChanceCalculatorInterface;
 use App\Domain\DTO\Round;
 use App\Helper\Util;
 use SplQueue;
@@ -27,8 +28,10 @@ class Game
     private int $maxNumberOfRounds;
     private bool $isGameOver = false;
     private ?Character $winner;
+    private ChanceCalculatorInterface $chanceCalculator;
 
     public function __construct(
+        ChanceCalculatorInterface $chanceCalculator,
         Character $characterOne,
         Character $characterTwo,
         int $maxNumberOfRounds
@@ -37,6 +40,7 @@ class Game
         $this->characters = new SplQueue();
         $this->rounds = new SplQueue();
         $this->maxNumberOfRounds = $maxNumberOfRounds;
+        $this->chanceCalculator = $chanceCalculator;
 
         if($this->isCharacterOneFirst($characterOne, $characterTwo)) {
             $this->characters->enqueue($characterOne);
@@ -65,7 +69,7 @@ class Game
             $attacker = $this->characters->dequeue();
             $defender = $this->characters->dequeue();
 
-            if(Util::areOddsInFavour($defender->getLuck())) {
+            if($this->chanceCalculator->areOddsInFavour($defender->getLuck())) {
                 $this->rounds->enqueue(
                     new Round($roundNumber,$attacker->getName(),$defender->getName(), true, $defender->getHealth())
                 );

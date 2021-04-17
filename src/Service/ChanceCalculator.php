@@ -1,15 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Helper;
+namespace App\Service;
 
-class Util
+use App\Api\ChanceCalculatorInterface;
+
+class ChanceCalculator implements ChanceCalculatorInterface
 {
     /**
      * Given that chance with which an event occurs
      * decides whether the event must occur or not.
      */
-    public static function areOddsInFavour(float $probability): bool
+    public function areOddsInFavour(float $probability): bool
     {
         if($probability === 0.0) {
             return false;
