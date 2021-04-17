@@ -12,7 +12,7 @@ class RapidStrike extends AbstractSkill
         return $attackValue * 2;
     }
 
-    function addDefenseValue(float $defenceValue, float $opponentAttackValue): float
+    function addDefenceValue(float $defenceValue, float $opponentAttackValue): float
     {
         return $defenceValue;
     }

@@ -19,6 +19,9 @@ class Character
     private float $defence;
     private float $speed;
     private float $luck;
+    /**
+     * @var AbstractSkill[]
+     */
     private array $skills;
 
     public function __construct(
@@ -61,13 +64,21 @@ class Character
 
     public function getHealth(): float
     {
-        return $this->getHealth();
+        return $this->health;
     }
 
     public function computeAttack(): Action
     {
-        // TODO IMPLEMENT
-        return new Action(0, []);
+        $attackValue = $this->strength;
+        $appliedSkills = [];
+        foreach ($this->skills as $skill) {
+            if($skill->doesSkillApply()) {
+                $attackValue = $skill->addAttackValue($attackValue);
+                $appliedSkills[] = $skill->getSkillLabel();
+            }
+        }
+
+        return new Action($attackValue, $appliedSkills);
     }
 
     /**
@@ -75,7 +86,14 @@ class Character
      */
     public function takeDamage(float $damage): Action
     {
-        // TODO IMPLEMENT
-        return new Action(0, []);
+        $defenceValue = $this->defence;
+        $appliedSkills = [];
+        foreach($this->skills as $skill) {
+            if($skill->doesSkillApply()) {
+                $defenceValue = $skill->addDefenceValue($defenceValue, $damage);
+                $appliedSkills[] = $skill->getSkillLabel();
+            }
+        }
+        return new Action($defenceValue, $appliedSkills);
     }
 }

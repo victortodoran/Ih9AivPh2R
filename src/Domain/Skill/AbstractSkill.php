@@ -32,7 +32,7 @@ abstract class AbstractSkill
     }
 
     abstract public function addAttackValue(float $attackValue): float;
-    abstract public function addDefenseValue(float $defenceValue, float $opponentAttackValue): float;
+    abstract public function addDefenceValue(float $defenceValue, float $opponentAttackValue): float;
 
     public function getSkillLabel(): string
     {

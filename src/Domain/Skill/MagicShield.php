@@ -12,7 +12,7 @@ class MagicShield extends AbstractSkill
         return $attackValue;
     }
 
-    public function addDefenseValue(float $defenceValue, float $opponentAttackValue): float
+    public function addDefenceValue(float $defenceValue, float $opponentAttackValue): float
     {
         return $defenceValue + $opponentAttackValue / 2;
     }

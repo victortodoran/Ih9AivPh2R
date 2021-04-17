@@ -70,8 +70,8 @@ class Game
                 continue;
             }
 
+            $attack = $attacker->computeAttack();
             try {
-                $attack = $attacker->computeAttack();
                 $defense = $defender->takeDamage($attack->getValue());
             } catch (CharacterIsDeadException $exception) {
                 $this->isGameOver = true;
