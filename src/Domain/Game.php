@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Domain;
 
 use App\Domain\DTO\Round;
-use App\Exception\CharacterIsDeadException;
 use App\Helper\Util;
 use SplQueue;
 
