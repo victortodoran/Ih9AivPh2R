@@ -43,5 +43,11 @@ class Console
 
             echo $roundMessage;
         }
+
+        if($game->getWinner()) {
+            echo "The winner of the battle is {$game->getWinner()->getName()}" . PHP_EOL;
+        } else {
+            echo "The battle ended a draw" . PHP_EOL;
+        }
     }
 }

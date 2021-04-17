@@ -28,7 +28,6 @@ class InMemoryCharacterFactory implements CharacterFactoryInterface
     private const SKILLS = 'skills';
 
     private const SKILL_IDENTIFIER = 'skill_identifier';
-    private const SKILL_TYPE = 'skill_type';
     private const SKILL_CHANCE = 'skill_chance';
 
     private const CHARACTERS_INFORMATION = [
