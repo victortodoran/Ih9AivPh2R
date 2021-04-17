@@ -28,7 +28,7 @@ abstract class AbstractSkill
         $this->validateConstructorData($chance);
 
         $this->chance = $chance;
-        $this->skillLabel = str_replace('_', ' ', static::IDENTIFIER);
+        $this->skillLabel = strtoupper(static::IDENTIFIER);
     }
 
     abstract public function addAttackValue(float $attackValue): float;

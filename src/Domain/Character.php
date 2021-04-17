@@ -67,6 +67,16 @@ class Character
         return $this->health;
     }
 
+    public function getStrength(): float
+    {
+        return $this->strength;
+    }
+
+    public function getDefence(): float
+    {
+        return $this->strength;
+    }
+
     public function computeAttack(): Action
     {
         $attackValue = $this->strength;
@@ -81,19 +91,29 @@ class Character
         return new Action($attackValue, $appliedSkills);
     }
 
-    /**
-     * @throws CharacterIsDeadException
-     */
-    public function takeDamage(float $damage): Action
+    public function takeDamage(float $attackValue): Action
     {
+        if($this->isCharacterDefeated()) {
+            return new Action(0, []);
+        }
+
         $defenceValue = $this->defence;
         $appliedSkills = [];
         foreach($this->skills as $skill) {
             if($skill->doesSkillApply()) {
-                $defenceValue = $skill->addDefenceValue($defenceValue, $damage);
+                $defenceValue = $skill->addDefenceValue($defenceValue, $attackValue);
                 $appliedSkills[] = $skill->getSkillLabel();
             }
         }
+
+        $damage = $attackValue - $defenceValue > 0 ? $attackValue - $defenceValue : 0.0;
+        $this->health = $this->health - $damage > 0 ? $this->health - $damage : 0.0;
+
         return new Action($defenceValue, $appliedSkills);
+    }
+
+    public function isCharacterDefeated(): bool
+    {
+        return $this->health === 0.0;
     }
 }

@@ -24,7 +24,7 @@ class Game
 
     private int $maxNumberOfRounds;
     private bool $isGameOver = false;
-    private Character $winner;
+    private ?Character $winner;
 
     public function __construct(
         Character $characterOne,
@@ -42,6 +42,8 @@ class Game
             $this->characters->enqueue($characterTwo);
             $this->characters->enqueue($characterOne);
         }
+
+        $this->winner = null;
     }
 
     public function execute(): void
@@ -55,7 +57,7 @@ class Game
          * @var Character $attacker
          * @var Character $defender
          */
-        while($roundNumber <= $this->maxNumberOfRounds || !$this->isGameOver) {
+        while($roundNumber <= $this->maxNumberOfRounds && !$this->isGameOver) {
             $attacker = $this->characters->dequeue();
             $defender = $this->characters->dequeue();
 
@@ -71,12 +73,11 @@ class Game
             }
 
             $attack = $attacker->computeAttack();
-            try {
-                $defense = $defender->takeDamage($attack->getValue());
-            } catch (CharacterIsDeadException $exception) {
+            $defense = $defender->takeDamage($attack->getValue());
+
+            if($defender->isCharacterDefeated()) {
                 $this->isGameOver = true;
                 $this->winner = $attacker;
-                $defense = null;
             }
 
             $this->rounds->enqueue(

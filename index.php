@@ -1,13 +1,19 @@
 <?php
 require __DIR__ . '/vendor/autoload.php';
 
+use App\Domain\Game;
 use App\Domain\InMemoryCharacterFactory;
+use App\Domain\Skill\SkillFactory;
+use App\Ui\Console;
+
+const MAX_NUMBER_OF_ROUNDS = 20;
 
 try {
-    $ui = new \App\Ui\Console();
-    $skillFactory = new \App\Domain\Skill\SkillFactory();
+    $ui = new Console();
+    $skillFactory = new SkillFactory();
     $characterFactory = new InMemoryCharacterFactory($skillFactory);
-    $game = new \App\Domain\Game(... $characterFactory->createCharacters());
+    [$characterOne, $characterTwo]  = $characterFactory->createCharacters();
+    $game = new Game($characterOne, $characterTwo, MAX_NUMBER_OF_ROUNDS);
     $game->execute();
     $ui->execute($game);
 } catch (\Exception $exception) {

@@ -1,11 +1,7 @@
 <?php
 declare(strict_types=1);
 
-
 namespace App\Helper;
-
-
-use App\Exception\InvalidChanceValueException;
 
 class Util
 {
@@ -18,6 +14,6 @@ class Util
         if($probability === 0.0) {
             return false;
         }
-        return (float) rand(1,100) <= $probability;
+        return (float) rand(0,100) <= $probability;
     }
 }
