@@ -1,9 +1,7 @@
 <?php
 declare(strict_types=1);
 
-
 namespace App\Domain;
-
 
 use App\Api\CharacterFactoryInterface;
 use App\Api\SkillFactoryInterface;
@@ -29,7 +27,6 @@ class InMemoryCharacterFactory implements CharacterFactoryInterface
 
     private const SKILL_IDENTIFIER = 'skill_identifier';
     private const SKILL_CHANCE = 'skill_chance';
-    private const SKILL_TYPE = 'type';
     private const SKILL_PRIORITY = 'priority';
 
     private const CHARACTERS_INFORMATION = [
