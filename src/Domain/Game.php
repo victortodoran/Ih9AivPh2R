@@ -26,7 +26,6 @@ class Game
      */
     private array $characterInitialStats;
     private int $maxNumberOfRounds;
-    private bool $isGameOver;
     private ?Character $winner;
     private ChanceCalculatorInterface $chanceCalculator;
     private int $roundNumber;
@@ -43,7 +42,6 @@ class Game
         $this->maxNumberOfRounds = $maxNumberOfRounds;
         $this->chanceCalculator = $chanceCalculator;
         $this->roundNumber = 1;
-        $this->isGameOver = false;
 
         if($this->isCharacterOneFirst($characterOne, $characterTwo)) {
             $this->characters->enqueue($characterOne);
@@ -63,7 +61,7 @@ class Game
      */
     public function executeRound(): Round
     {
-        if($this->roundNumber > $this->maxNumberOfRounds || $this->isGameOver) {
+        if($this->isGameOver()) {
             throw new GameOverException("Game Over.");
         }
 
@@ -82,6 +80,7 @@ class Game
 
             $this->characters->enqueue($defender);
             $this->characters->enqueue($attacker);
+
             $this->roundNumber++;
             return $round;
         }
@@ -90,7 +89,6 @@ class Game
         $defense = $defender->takeDamage($attack->getValue());
 
         if($defender->isCharacterDefeated()) {
-            $this->isGameOver = true;
             $this->winner = $attacker;
         }
 
@@ -106,18 +104,14 @@ class Game
         $this->rounds->enqueue($round);
         $this->characters->enqueue($defender);
         $this->characters->enqueue($attacker);
+
         $this->roundNumber++;
-
-        if($this->roundNumber === $this->maxNumberOfRounds) {
-            $this->isGameOver = true;
-        }
-
         return $round;
     }
 
     public function isGameOver(): bool
     {
-        return $this->isGameOver;
+        return $this->roundNumber > $this->maxNumberOfRounds;
     }
 
     private function isCharacterOneFirst(Character $characterOne, Character $characterTwo): bool
@@ -141,6 +135,11 @@ class Game
     public function getInitialCharacterStats(): array
     {
         return $this->characterInitialStats;
+    }
+
+    public function getNumberOfPlayedRounds(): int
+    {
+        return $this->rounds->count();
     }
 
     /**

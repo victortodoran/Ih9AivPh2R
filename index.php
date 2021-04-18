@@ -8,7 +8,6 @@ use App\Service\ChanceCalculator;
 use App\Ui\Console;
 
 const MAX_NUMBER_OF_ROUNDS = 20;
-
 try {
     $ui = new Console();
     $chanceCalculator = new ChanceCalculator();
