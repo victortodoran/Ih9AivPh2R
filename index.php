@@ -16,7 +16,6 @@ try {
     $characterFactory = new InMemoryCharacterFactory($skillFactory);
     [$characterOne, $characterTwo]  = $characterFactory->createCharacters();
     $game = new Game($chanceCalculator, $characterOne, $characterTwo, MAX_NUMBER_OF_ROUNDS);
-    $game->execute();
     $ui->execute($game);
 } catch (\Exception $exception) {
     echo "Oops. Something went wrong during the game." . PHP_EOL;
