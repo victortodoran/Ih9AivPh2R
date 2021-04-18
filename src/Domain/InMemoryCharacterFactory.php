@@ -94,5 +94,4 @@ class InMemoryCharacterFactory implements CharacterFactoryInterface
         }
         return $result;
     }
-
 }

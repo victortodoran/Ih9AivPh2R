@@ -95,7 +95,7 @@ class Character
         $attackValue = $this->strength;
         $appliedSkills = [];
         /** @var AbstractAttackSkill $skill */
-        foreach ($this->attackSkills as $skill) {
+        foreach (clone $this->attackSkills as $skill) {
             if($skill->doesSkillApply()) {
                 $attackValue = $skill->applySkill($attackValue);
                 $appliedSkills[] = $skill->getSkillLabel();
@@ -114,7 +114,7 @@ class Character
         $defenceValue = $this->defence;
         $appliedSkills = [];
         /** @var AbstractDefenceSkill $skill */
-        foreach($this->defenceSkills as $skill) {
+        foreach(clone $this->defenceSkills as $skill) {
             if($skill->doesSkillApply()) {
                 $defenceValue = $skill->applySkill($defenceValue, $attackValue);
                 $appliedSkills[] = $skill->getSkillLabel();
