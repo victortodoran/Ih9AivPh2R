@@ -27,6 +27,9 @@ class Action
         return $this->value;
     }
 
+    /**
+     * @return string[]
+     */
     public function getSkills(): array
     {
         return $this->skills;

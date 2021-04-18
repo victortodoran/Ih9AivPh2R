@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace App\Tests\Domain\Skill;
 
 use App\Domain\Skill\AbstractDefenceSkill;
+use App\Domain\Skill\AbstractSkill;
 use App\Domain\Skill\MagicShield;
+use App\Exception\InvalidSkillValuesException;
 use App\Tests\Service\MockChanceCalculatorAlwaysTrue;
 use PHPUnit\Framework\TestCase;
 
@@ -37,5 +39,25 @@ class MagicShieldTest extends TestCase
 
         $defence = $this->magicShieldSkill->applySkill(50, 15);
         $this->assertEquals(57.5, $defence);
+    }
+
+    public function testConstructorWithNegativeChance()
+    {
+        $this->expectException(InvalidSkillValuesException::class);
+        new MagicShield(
+            new MockChanceCalculatorAlwaysTrue(),
+            -1,
+            self::PRIORITY
+        );
+    }
+
+    public function testConstructorWithChanceAbove100()
+    {
+        $this->expectException(InvalidSkillValuesException::class);
+        new MagicShield(
+            new MockChanceCalculatorAlwaysTrue(),
+            101,
+            self::PRIORITY
+        );
     }
 }

@@ -45,10 +45,7 @@ class Console
                 $roundMessage .= "Defender used his core defence and the following skills " . implode(',', $round->getDefence()->getSkills()) . PHP_EOL;
             }
 
-            $totalDamage = $round->getAttack()->getValue() - $round->getDefence()->getValue() > 0 ?
-                $round->getAttack()->getValue() - $round->getDefence()->getValue() : 0;
-
-            $roundMessage .= "The attacker {$round->getAttackerName()} did a total damage of {$totalDamage} to {$round->getDefenderName()}" . PHP_EOL;
+            $roundMessage .= "The attacker {$round->getAttackerName()} did a total damage of {$round->getTotalDamage()} to {$round->getDefenderName()}" . PHP_EOL;
             if($round->getDefenderRemainingHealth()) {
                 $roundMessage .= "Remaining health at the end of the round for {$round->getDefenderName()}(Defender) was {$round->getDefenderRemainingHealth() }" . PHP_EOL;
             } else {

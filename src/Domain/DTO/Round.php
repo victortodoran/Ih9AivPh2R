@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\DTO;
 
+use App\Exception\InvalidRoundConstructorParamsException;
+
 /**
  * Used to keep track of events during a game's execution.
  * Rounds can later be used to display a game's execution in whatever format needed.
@@ -20,6 +22,9 @@ class Round
     private ?Action $attack;
     private ?Action $defence;
 
+    /**
+     * @throws InvalidRoundConstructorParamsException
+     */
     public function __construct(
         int $roundNumber,
         string $attackerName,
@@ -29,6 +34,9 @@ class Round
         ?Action $attack = null,
         ?Action $defence = null
     ) {
+        if(!$defenderGotLucky && (is_null($attack) || is_null($defence))) {
+            throw new InvalidRoundConstructorParamsException("Can't create Round. Attack and/or Defence actions are missing.");
+        }
         $this->roundNumber = $roundNumber;
         $this->attackerName = $attackerName;
         $this->defenderName = $defenderName;
@@ -92,5 +100,15 @@ class Round
     public function getDefence(): ?Action
     {
         return $this->defence;
+    }
+
+    public function getTotalDamage(): float
+    {
+        if($this->wasDefenderLucky()) {
+            return 0;
+        }
+
+        return $this->getAttack()->getValue() - $this->getDefence()->getValue() > 0 ?
+            $this->getAttack()->getValue() - $this->getDefence()->getValue() : 0;
     }
 }
