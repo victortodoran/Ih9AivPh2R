@@ -1,5 +1,5 @@
 # A FEW WORDS ABOUT SKILLS
-###Order in which skills are applied matters
+### Order in which skills are applied matters
 Given the MagicShield skill's description there are two ways to go abt it.
  - Alter the 'candidate' damage in the current attack. 
  - Increase the defence value of the character to decrease the impact of the 'candidate' damage.
