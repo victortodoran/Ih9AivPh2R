@@ -1,4 +1,3 @@
-# Hero-App
 ### Bootstrap Project
 1. clone/download the repository
 2. go to project folder
