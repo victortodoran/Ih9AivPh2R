@@ -3,7 +3,7 @@
 2. go to project folder
 3. composer install
 
-### Run Tests (Depends on Bootsrap Project)
+### Run Tests (Depends on Bootstrap Project)
 1. ./vendor/bin/phpunit tests
 
 ### Run App (Depends on Bootstrap Project)
